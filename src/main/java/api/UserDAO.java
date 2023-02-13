@@ -1,17 +1,17 @@
 package api;
 
-import model.User;
+import model.Person;
 
 import java.util.List;
 
 public interface UserDAO {
-    void create(User user);
+    void create(Person person);
 
-    User getById(int id);
+    Person getById(int id);
 
-    List<User> getAll();
+    List<Person> getAll();
 
-    void remove(User user);
+    void remove(Person person);
 
-    void change(User user);
+    void change(Person person);
 }

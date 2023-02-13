@@ -1,31 +1,41 @@
 package model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name = "user")
-public class User {
+@Table(name = "person")
+public class Person {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    Long id;
+    private Long id;
     @Column(name = "name")
-    String name;
+    private String name;
     @Column(name = "login")
-    String login;
+    private String login;
     @Column(name = "password")
-    String password;
+    private String password;
     @Column(name = "role_id")
-    Integer roleId;
+    private Integer roleId;
     @ManyToMany
-    List<Role> roles;
+    private List<Role> roles;
 
-    public User() {
+    public Person() {
     }
 
-    public User(String name, String login, String password, Integer roleId) {
+    public Person(String name, String login, String password, Role... roles) {
+        this.name = name;
+        this.login = login;
+        this.password = password;
+        this.roles = new ArrayList<>();
+        Collections.addAll(this.roles, roles);
+    }
+
+    public Person(String name, String login, String password, Integer roleId) {
         this.name = name;
         this.login = login;
         this.password = password;
@@ -84,12 +94,21 @@ public class User {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return Objects.equals(id, user.id) && Objects.equals(name, user.name) && Objects.equals(login, user.login) && Objects.equals(password, user.password) && Objects.equals(roleId, user.roleId) && Objects.equals(roles, user.roles);
+        Person person = (Person) o;
+        return Objects.equals(id, person.id) && Objects.equals(name, person.name) && Objects.equals(login, person.login) && Objects.equals(password, person.password) && Objects.equals(roleId, person.roleId) && Objects.equals(roles, person.roles);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(id, name, login, password, roleId, roles);
+    }
+
+    @Override
+    public String toString() {
+        return "ID: " + id +
+                ", Имя: '" + name  +
+                ", Логин: '" + login +
+                ", Пароль: '" + '*' * password.length()  +
+                ", Роли: " + roles;
     }
 }

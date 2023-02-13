@@ -1,7 +1,8 @@
 package api;
 
 import config.HibernateSessionFactoryUtil;
-import model.User;
+import model.Person;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -9,41 +10,42 @@ import java.util.List;
 
 public class UserDAOImpl implements UserDAO {
     @Override
-    public void create(User user) {
+    public void create(Person person) {
         try (Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession()) {
             Transaction transaction = session.beginTransaction();
+            session.save(person);
             transaction.commit();
         }
     }
 
     @Override
-    public User getById(int id) {
+    public Person getById(int id) {
         try (Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession()) {
-            return session.get(User.class, id);
+            return session.get(Person.class, id);
         }
     }
 
     @Override
-    public List<User> getAll() {
+    public List<Person> getAll() {
         try (Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession()) {
-            return session.createQuery("FROM User").list();
+            return session.createQuery("SELECT id, name, login, roleId as role FROM Person").list();
         }
     }
 
     @Override
-    public void remove(User user) {
+    public void remove(Person person) {
         try (Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession()) {
             Transaction transaction = session.beginTransaction();
-            session.delete(user);
+            session.delete(person);
             transaction.commit();
         }
     }
 
     @Override
-    public void change(User user) {
+    public void change(Person person) {
         try (Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession()){
             Transaction transaction = session.beginTransaction();
-            session.update(user);
+            session.update(person);
             transaction.commit();
         }
     }

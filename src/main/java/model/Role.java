@@ -10,11 +10,11 @@ public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "role_id")
-    long roleId;
+    private Integer roleId;
     @Column(name = "title")
-    String title;
+    private String title;
     @ManyToMany(mappedBy = "roleId")
-    List<User> users;
+    private List<Person> people;
 
     public Role() {
     }
@@ -27,7 +27,7 @@ public class Role {
         return roleId;
     }
 
-    public void setRole_id(long role_id) {
+    public void setRole_id(Integer role_id) {
         this.roleId = role_id;
     }
 
@@ -39,12 +39,12 @@ public class Role {
         this.title = title;
     }
 
-    public List<User> getUsers() {
-        return users;
+    public List<Person> getPeople() {
+        return people;
     }
 
-    public void setUsers(List<User> users) {
-        this.users = users;
+    public void setUsers(List<Person> people) {
+        this.people = people;
     }
 
     @Override
@@ -52,11 +52,17 @@ public class Role {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Role role = (Role) o;
-        return roleId == role.roleId && Objects.equals(title, role.title) && Objects.equals(users, role.users);
+        return roleId == role.roleId && Objects.equals(title, role.title) && Objects.equals(people, role.people);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(roleId, title, users);
+        return Objects.hash(roleId, title, people);
+    }
+
+    @Override
+    public String toString() {
+        return "ID: " + roleId +
+                ", Роль: " + title;
     }
 }

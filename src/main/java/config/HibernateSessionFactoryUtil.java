@@ -1,7 +1,7 @@
 package config;
 
 import model.Role;
-import model.User;
+import model.Person;
 import org.hibernate.HibernateException;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
@@ -17,7 +17,7 @@ public class HibernateSessionFactoryUtil {
         if (sessionFactory == null) {
             try {
                 Configuration configuration = new Configuration().configure();
-                configuration.addAnnotatedClass(User.class);
+                configuration.addAnnotatedClass(Person.class);
                 configuration.addAnnotatedClass(Role.class);
                 StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder()
                         .applySettings(configuration.getProperties());
